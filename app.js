@@ -6,6 +6,7 @@ const AdminJSExpress = require('@adminjs/express');
 const AdminJSMongoose = require('@adminjs/mongoose');
 
 const { PositionResourceOptions } = require("./position/position.options");
+const { EmailResourceOptions } = require("./email/email.options")
 
 AdminJS.registerAdapter(AdminJSMongoose);
 
@@ -16,7 +17,7 @@ const config = require("./config");
 const adminJS = new AdminJS({
     databases: [],
     rootPath: '/admin',
-    resources: [PositionResourceOptions]
+    resources: [PositionResourceOptions, EmailResourceOptions]
 });
 const adminJSRouter = AdminJSExpress.buildRouter(adminJS);
 
