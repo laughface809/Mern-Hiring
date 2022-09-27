@@ -1,8 +1,5 @@
 require("dotenv").config();
-const DB_SERVER = process.env.DB_SERVER || "localhost";
-const DB_PORT = process.env.DB_PORT || "27017";
-const CONNECTION_STRING = `mongodb://${DB_SERVER}:${DB_PORT}`;
-const DBNAME = "hiring";
+const CONNECTION_STRING = process.env.MONGO_STRING;
 
 const SENDER_HOST = process.env.SENDER_HOST;
 const SENDER_PORT = process.env.SENDER_PORT;
@@ -12,7 +9,6 @@ const SENDER_PASSWORD = process.env.SENDER_PASSWORD;
 
 module.exports = {
     CONNECTION_STRING,
-    DBNAME,
     SENDER_HOST,
     SENDER_PORT,
     SENDER_NAME,
