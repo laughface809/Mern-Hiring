@@ -7,4 +7,9 @@ const Position = mongoose.model('Position', PositionSchema);
 module.exports = {
     PositionSchema,
     Position,
+    countPosition
+}
+
+async function countPosition() {
+    return await Position.count();
 }

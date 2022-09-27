@@ -1,8 +1,62 @@
+const AdminJS = require('adminjs');
 const { Candidate } = require("./candidate.model");
+const { hiringMenu } = require("../common/navigation");
+
+const isCheckingCV = ({ record }) => {
+    return record.params.currentStage === "CHECK_CV" ||
+        !record.params.currentStage;
+}
+const cvResponseHandler = (request, response, context) => {
+    const candidate = context.record;
+    return {
+        record: candidate.toJSON(),
+    }
+};
+const isInterviewing = ({ record }) => {
+    return record.params.currentStage === "INTERVIEW";
+}
+
+const afterInterviewHandler = (request, response, context) => {
+    const candidate = context.record;
+    return {
+        record: candidate.toJSON(),
+    }
+};
 
 const CandidateResourceOptions = {
     resource: Candidate,
     options: {
+        navigation: hiringMenu,
+        actions: {
+            RejectCV: {
+                actionType: 'record',
+                icon: 'View',
+                isVisible: isCheckingCV,
+                handler: cvResponseHandler,
+                component: AdminJS.bundle('../public/pages/cv-response'),
+            },
+            PassToInterview: {
+                actionType: 'record',
+                icon: 'View',
+                isVisible: isCheckingCV,
+                handler: cvResponseHandler,
+                component: AdminJS.bundle('../public/pages/cv-response'),
+            },
+            DeclineAfterInterview: {
+                actionType: 'record',
+                icon: 'View',
+                isVisible: isInterviewing,
+                handler: afterInterviewHandler,
+                component: AdminJS.bundle('../public/pages/interview-response'),
+            },
+            AcceptAfterInterview: {
+                actionType: 'record',
+                icon: 'View',
+                isVisible: isInterviewing,
+                handler: afterInterviewHandler,
+                component: AdminJS.bundle('../public/pages/interview-response'),
+            }
+        },
         properties: {
             _id: {
                 isVisible: false
@@ -28,8 +82,16 @@ const CandidateResourceOptions = {
             note: {
                 type: 'textarea'
             },
+            interview: {
+                isVisible: {
+                    filter: false,
+                },
+                components: {
+                    show: AdminJS.bundle('../public/custom-components/candidate-interview'),
+                }
+            }
         }
-    },
+    }
 }
 
 module.exports = {
